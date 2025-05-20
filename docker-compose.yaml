@@ -1,0 +1,17 @@
+services:
+  migrate:
+    image: 'openfga/openfga:latest'
+    container_name: migrate
+    command: migrate
+    env_file:
+      - .env
+    restart: no
+  openfga:
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    image: 'openfga/openfga:latest'
+    container_name: openfga
+    env_file:
+      - .env
+    command: run
